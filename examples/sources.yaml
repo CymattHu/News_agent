@@ -1,0 +1,6 @@
+- type: rss
+  url: https://rss.cnn.com/rss/edition.rss
+- type: rss
+  url: https://feeds.bbci.co.uk/news/rss.xml
+- type: url
+  url: https://techcrunch.com
