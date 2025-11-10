@@ -1,4 +1,5 @@
 src/__pycache__/**
 src/tools/__pycache__/**
 news_agent.db
+# 忽略环境变量配置文件
 .env
