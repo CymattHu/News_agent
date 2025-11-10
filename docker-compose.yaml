@@ -3,12 +3,13 @@ services:
   news-agent:
     build: .
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - DEFAULT_LANGUAGE=${DEFAULT_LANGUAGE:-zh}
       - DB_URL=${DB_URL:-sqlite:///news_agent.db}
       - USER_AGENT=${USER_AGENT:-news-agent-bot/1.0}
     volumes:
       - .:/app
     ports:
-      - "8000:8000"
+      - "9000:9000"
+    stdin_open: true 
     tty: true
