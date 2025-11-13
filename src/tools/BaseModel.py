@@ -11,13 +11,19 @@ class SourceItem(BaseModel):
 
 class Article(BaseModel):
     title: str
-    content: str
-    summary: Optional[str] = None
-    source: Optional[str] = "其他"
+    summary: str
+    link: Optional[str] = ""
+    summary_generated: Optional[str] = ""
     
+
 # ----------------------
 # fetch_tools.py
-# ----------------------
-    
+# ----------------------      
 class FetchNewsArgs(BaseModel):
     query: str
+    
+# ----------------------
+# summarize_tool.py
+# ----------------------   
+class SummarizeArticlesArgs(BaseModel):
+    articles: List[Article]  # 支持 dict 或 Article 对象

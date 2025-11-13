@@ -23,14 +23,21 @@ fetcher = Fetcher()
 def parse_query_to_sources(query: str) -> List[dict]:
     """
     根据用户自然语言 query 匹配新闻源
+    优先 name 匹配，如果 name 匹配成功，则不考虑 tag 匹配
     """
     query_lower = query.lower()
     matched_sources = []
+
     for source in NEWS_SOURCES:
         name_match = source["name"].lower() in query_lower
-        tag_match = any(tag.lower() in query_lower for tag in source.get("tags", []))
-        if name_match or tag_match:
+        if name_match:
             matched_sources.append(source)
+            continue  # 如果 name 匹配成功，就不检查 tag 了
+
+        tag_match = any(tag.lower() in query_lower for tag in source.get("tags", []))
+        if tag_match:
+            matched_sources.append(source)
+
     return matched_sources
 
 # 工具函数定义
@@ -52,17 +59,16 @@ def fetch_news(query) -> List[Article]:
         articles.append(
             Article(
                 title=r.get("title", ""),
-                content=r.get("content", ""),  # 如果没有 content，用空字符串
-                summary=r.get("summary"),
-                source=r.get("source", "其他")
+                summary=r.get("summary", ""),
+                link = r.get("link", "")
             )
         )
     return articles
 
 if __name__ == "__main__":
     # 测试抓取工具,测试前请注释 line45 @tool("fetch_news", return_direct=False, args_schema=FetchNewsArgs)
-    test_query = "请抓取IT之家科技新闻"
+    test_query = "请抓取机器人新闻"
     articles = fetch_news(test_query)
     for art in articles:
-        print(art.title,"\n\n", art.content,"\n")
+        print(art.title,"\n\n", art.summary,"\n",art.link,"\n\n")
     print(f"共抓取到 {len(articles)} 篇文章。")

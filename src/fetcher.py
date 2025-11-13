@@ -54,22 +54,19 @@ class Fetcher:
 
                 title = title_tag.get_text(strip=True) if title_tag else ""
                 summary = summary_tag.get_text(strip=True) if summary_tag else ""
-                link = (
-                    title_tag.get(selectors["link_attr"])
-                    if title_tag and title_tag.has_attr(selectors["link_attr"])
-                    else ""
-                )
+                link_tag = title_tag.select_one(selectors["link_attr"]) if title_tag else None
+                link = link_tag["href"] if link_tag and link_tag.has_attr("href") else ""
 
                 # 若 link 是相对路径，则拼接成完整 URL
                 if link and link.startswith("/"):
                     from urllib.parse import urljoin
                     link = urljoin(url, link)
-
+                    
                 if title:
                     results.append({
                         "title": title,
-                        "content": summary,
-                        "link": link or url,
+                        "summary": summary,
+                        "link": link,
                         "source": url
                     })
 
@@ -79,7 +76,7 @@ class Fetcher:
                 if extracted:
                     results = [{
                         "title": soup.title.string if soup.title else "",
-                        "content": extracted[:500],
+                        "summary": extracted[:500],
                         "link": url,
                         "source": url
                     }]
@@ -120,25 +117,25 @@ if __name__ == "__main__":
     # ✅ 测试单个网页抓取
     test_url = "https://it.ithome.com/"
     config = {
-    "encoding": "utf-8",
-    "selectors": {
-        # 每条新闻块的外层（标题所在）
-        "item": "div.c",
-        # 标题选择器（通常是 a 或 h2 a）
-        "title": "a, h2 a, h3 a",
-        # 摘要选择器 —— 紧邻 .c 的 .m
-        "summary": "div.m, .m p",
-        # 链接属性
-        "link_attr": "href"
+        "encoding": "utf-8",
+        "selectors": {
+            # 每条新闻块的外层（标题所在）
+            "item": "div.c",
+            # 标题选择器（通常是 a 或 h2 a）
+            "title": "a, h2 a, h3 a",
+            # 摘要选择器 —— 紧邻 .c 的 .m
+            "summary": "div.m, .m p",
+            # 链接属性
+            "link_attr": "href"
+        }
     }
-}
 
     articles = fetcher.fetch_article(test_url, config)
 
     print(f"抓取 {test_url} 共 {len(articles)} 条：")
     for i, art in enumerate(articles[:5]):
         print(f"\n[{i+1}] {art['title']}")
-        print(f"摘要: {art['content'][:150]}...")
+        print(f"摘要: {art['summary'][:150]}...")
         print(f"链接: {art['link']}")
 
     # ✅ 测试多源抓取
@@ -149,6 +146,6 @@ if __name__ == "__main__":
     print("\n\n多源抓取结果预览：")
     for i, art in enumerate(all_articles[:5]):
         print(f"\n[{i+1}] {art['title']}")
-        print(f"摘要: {art['content'][:150]}...")
+        print(f"摘要: {art['summary'][:150]}...")
         print(f"链接: {art['link']}")
     print(f"\n总共抓取到 {len(all_articles)} 条文章。")
