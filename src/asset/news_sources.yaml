@@ -1,76 +1,41 @@
-- url: "http://rss.people.com.cn/rss/politics.xml"
-  name: "人民网-政治"
-  tags: ["政治", "国内"]
+# - url: "https://it.ithome.com/"
+#   name: "IT之家"
+#   tags: ["科技", "互联网"]
+#   config:
+#     encoding: "utf-8"
+#     selectors:
+#       item: "div.c"
+#       title: "a, h2 a, h3 a"
+#       summary: "div.m, .m p"
+#       link_attr: "href"
+- url: https://www.therobotreport.com/category/news/
+  name: The Robot Report
+  tags: [科技, 机器人]
   config:
-    encoding: "utf-8"
+    encoding: utf-8
     selectors:
-      item: "div.c"
-      title: "a, h2 a, h3 a"
-      summary: "div.m, .m p"
-      link_attr: "href"
+      item: article.type-post.entry.has-post-thumbnail
+      title: .entry-title
+      summary: .entry-content
+      link_attr: a.entry-title-link[href]
 
-- url: "http://rss.people.com.cn/rss/world.xml"
-  name: "人民网-国际"
-  tags: ["国际"]
-  config:
-    encoding: "utf-8"
-    selectors:
-      item: "div.c"
-      title: "a, h2 a, h3 a"
-      summary: "div.m, .m p"
-      link_attr: "href"
-
-- url: "http://news.ifeng.com/rss/index.xml"
-  name: "凤凰网-新闻"
-  tags: ["综合", "国内", "国际"]
-  config:
-    encoding: "utf-8"
-    selectors:
-      item: "div.c"
-      title: "a, h2 a, h3 a"
-      summary: "div.m, .m p"
-      link_attr: "href"
-
-- url: "https://news.sina.com.cn/rss/rollnews.xml"
-  name: "新浪新闻-滚动"
-  tags: ["综合", "国内", "国际"]
-  config:
-    encoding: "utf-8"
-    selectors:
-      item: "div.c"
-      title: "a, h2 a, h3 a"
-      summary: "div.m, .m p"
-      link_attr: "href"
-
-- url: "https://rss.cctv.com/news/cctvnews.xml"
-  name: "央视网-新闻"
-  tags: ["综合", "国内"]
-  config:
-    encoding: "utf-8"
-    selectors:
-      item: "div.c"
-      title: "a, h2 a, h3 a"
-      summary: "div.m, .m p"
-      link_attr: "href"
-
-- url: "https://www.yicai.com/rss/finance.xml"
-  name: "第一财经-财经"
-  tags: ["财经", "经济"]
-  config:
-    encoding: "utf-8"
-    selectors:
-      item: "div.c"
-      title: "a, h2 a, h3 a"
-      summary: "div.m, .m p"
-      link_attr: "href"
-
-- url: "https://it.ithome.com/"
-  name: "IT之家"
-  tags: ["科技", "互联网"]
-  config:
-    encoding: "utf-8"
-    selectors:
-      item: "div.c"
-      title: "a, h2 a, h3 a"
-      summary: "div.m, .m p"
-      link_attr: "href"
+# - url: https://roboticsandautomationnews.com/category/news/
+#   name: Robotics and Automation News
+#   tags: [科技, 机器人]
+#   config:
+#     encoding: utf-8
+#     selectors:
+#       item: div.td_module_16
+#       title: h3.entry-title a
+#       summary: div.td-excerpt p
+#       link_attr: href
+# - url: https://humanoidroboticstechnology.com/category/news/
+#   name: Humanoid Robotics Technology
+#   tags: [科技, 机器人]
+#   config:
+#     encoding: utf-8
+#     selectors:
+#       item: div.td_module_16
+#       title: h3.entry-title a
+#       summary: div.td-excerpt p
+#       link_attr: href
