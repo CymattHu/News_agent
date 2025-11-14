@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,Field
 from typing import List, Dict, Optional, Union
 
 # ----------------------
@@ -14,6 +14,7 @@ class Article(BaseModel):
     summary: str
     link: Optional[str] = ""
     summary_generated: Optional[str] = ""
+    categories: Optional[List[str]] = []
     
 
 # ----------------------
@@ -27,3 +28,10 @@ class FetchNewsArgs(BaseModel):
 # ----------------------   
 class SummarizeArticlesArgs(BaseModel):
     articles: List[Article]  # 支持 dict 或 Article 对象
+    
+# ----------------------
+# report_tool.py
+# ----------------------   
+class GenerateReportArgs(BaseModel):
+    articles: List[Article]
+    filename: Optional[str] = Field(default="news_report.pdf", description="生成的 PDF 文件名")
