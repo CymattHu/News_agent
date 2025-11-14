@@ -12,7 +12,7 @@ def summarize_articles(articles: List[Article]) -> List[Article]:
     对文章列表进行摘要并返回带有 summary_generated 字段的列表 
     """
     # 将 BaseModel 转 dict（兼容 Pydantic V2）
-    articles_data = [a.model_dump() for a in articles.articles]
+    articles_data = [a.model_dump() for a in articles]
     # 批量摘要
     summarized = summarizer.batch_summarize(articles_data)
     # 重新构造 Article 对象
@@ -29,6 +29,7 @@ if __name__ == "__main__":
         )
     ]
     
-    summarized_articles = summarize_articles(SummarizeArticlesArgs(articles=test_articles))
+    summarized_articles = summarize_articles(test_articles)
     for i, article in enumerate(summarized_articles):
         print(f"Article {i+1} Generated Summary:\n", article.summary_generated)
+        print(f"Article {i+1} Categories:\n", article.categories)
