@@ -1,13 +1,3 @@
-# - url: "https://it.ithome.com/"
-#   name: "IT之家"
-#   tags: ["科技", "互联网"]
-#   config:
-#     encoding: "utf-8"
-#     selectors:
-#       item: "div.c"
-#       title: "a, h2 a, h3 a"
-#       summary: "div.m, .m p"
-#       link_attr: "href"
 - url: https://www.therobotreport.com/category/news/
   name: The Robot Report
   tags: [科技, 机器人]
@@ -18,6 +8,27 @@
       title: .entry-title
       summary: .entry-content
       link_attr: a.entry-title-link[href]
+- url: https://www.bbc.com/news  # lack of top news
+  name: BBC News
+  tags: [新闻, 综合]
+  config:
+    encoding: utf-8
+    selectors:
+      item: div[data-testid="dundee-article"]
+      title: h2[data-testid="card-headline"]
+      summary: p[data-testid="card-description"]
+      link_attr: a[href]
+
+- url: https://www.cnn.com/world
+  name: CNN World
+  tags: [新闻, 综合]
+  config:
+    encoding: utf-8
+    selectors:
+      item: article.cd__wrapper
+      title: h3.cd__headline a
+      summary: div.cd__description
+      link_attr: a[href]
 
 # - url: https://roboticsandautomationnews.com/category/news/
 #   name: Robotics and Automation News
