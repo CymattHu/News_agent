@@ -46,11 +46,13 @@ def parse_query_to_sources(query: str) -> List[dict]:
     return matched_sources
 
 # 工具函数定义
-@tool("news_report", return_direct=False, args_schema=FetchNewsArgs)
-def news_report(query) -> str:
+@tool("news_report", return_direct=False)
+def news_report(query:str,top_k:int,report_file_name:str) -> str:
     """
     抓取新闻内容自动总结并生成报告。
-    query: keywords or news source names in natural language.
+    Args:
+        query: keywords or news source names in natural language.
+        top_k: 抓取后选择的前 k 条重要新闻进行总结
     返回 str，生成的报告文件路径。
     1. 抓取新闻
     2. 总结新闻
@@ -72,13 +74,13 @@ def news_report(query) -> str:
                 link = r.get("link", "")
             )
         )
-    top_articles = selector.select_top_articles([a.model_dump() for a in articles], top_k=5)
+    top_articles = selector.select_top_articles([a.model_dump() for a in articles], top_k)
     summarized = summarizer.batch_summarize(top_articles)
     formated_summarized = [Article(**a) for a in summarized]
-    reporter = Reporter("news_report.pdf")
+    reporter = Reporter(report_file_name)
     grouped = {}
     for a in formated_summarized:
         src = a.categories[0] if a.categories else  "其他"
         grouped.setdefault(src, []).append(a.model_dump())
     reporter.generate("今日新闻报告", grouped)
-    return os.path.join(os.getcwd(), "news_report.pdf")
+    return os.path.join(os.getcwd(), report_file_name)
