@@ -8,6 +8,7 @@ from .BaseModel import Article,FetchNewsArgs
 from ..fetcher import Fetcher
 from ..summarizer import Summarizer
 from ..reporter import Reporter
+from ..article_selector import ArticleSelector
 # 从环境变量读取路径（默认路径为 ../asset/news_sources.yaml）
 SOURCES_FILE = os.getenv(
     "NEWS_SOURCES_FILE",
@@ -19,6 +20,7 @@ with open(SOURCES_FILE, "r", encoding="utf-8") as f:
 
 fetcher = Fetcher()
 summarizer = Summarizer()
+selector = ArticleSelector()
 
 
 
@@ -70,7 +72,8 @@ def news_report(query) -> str:
                 link = r.get("link", "")
             )
         )
-    summarized = summarizer.batch_summarize([a.model_dump() for a in articles])
+    top_articles = selector.select_top_articles([a.model_dump() for a in articles], top_k=5)
+    summarized = summarizer.batch_summarize(top_articles)
     formated_summarized = [Article(**a) for a in summarized]
     reporter = Reporter("news_report.pdf")
     grouped = {}
@@ -78,4 +81,4 @@ def news_report(query) -> str:
         src = a.categories[0] if a.categories else  "其他"
         grouped.setdefault(src, []).append(a.model_dump())
     reporter.generate("今日新闻报告", grouped)
-    return "news_report.pdf"
+    return os.path.join(os.getcwd(), "news_report.pdf")
