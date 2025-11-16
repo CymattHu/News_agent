@@ -7,13 +7,13 @@ import re
 import json
 
 class Summarizer:
-    def __init__(self, model: str = "gemini-2.0-flash"):
+    def __init__(self, model: str = "gemini-2.5-pro"):
         # 初始化 LangChain 的 Gemini 接口
         self.model = ChatGoogleGenerativeAI(
             model=model,
             google_api_key=settings.google_api_key,
             temperature=0.2,
-            max_output_tokens=512,
+            max_output_tokens=1024,
         )
 
     def summarize(self, title: str, summary: str, link: str = "", max_tokens: int = 512):

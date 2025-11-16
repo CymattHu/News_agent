@@ -17,7 +17,7 @@ def extract_json_block(text: str):
     return text.strip()
 
 class ArticleSelector:
-    def __init__(self, model: str = "gemini-2.0-flash"):
+    def __init__(self, model: str = "gemini-2.5-pro"):
         """
         :param model_name: LLM 模型名称
         :param api_key: OpenAI API key
@@ -26,20 +26,23 @@ class ArticleSelector:
             model=model,
             google_api_key=settings.google_api_key,
             temperature=0.2,
-            max_output_tokens=512,
+            max_output_tokens=1024,
         )
         
     def select_top_articles(self, articles: List[Article], top_k: int = 5) -> List[Article]:
         """
         从文章列表中挑选出最重要的 top_k 条，按重要性排序。
         """
+        if top_k > 7:
+            top_k = 7  # 限制最多选择 7 条
         prompt = "你是新闻助手，请从下面新闻中挑选出最重要的{}条，按重要性从高到低排序。只返回每条新闻的索引，不要删除或修改字段。\n\n".format(top_k)
         for i, a in enumerate(articles):
-            prompt += f"{i}: 标题：{a['title']} 摘要：{a['summary'][:300]}\n"
+            prompt += f"{i}: 标题：{a['title']} 摘要：{a['summary'][:3000]}\n"
 
         prompt += "\n请返回 JSON 数组，例如：[0,3,2,1,4]"
 
         try:
+
             response = self.model.invoke([HumanMessage(content=prompt)])
             content = response.content.strip()
             # 去除可能的代码块标记
