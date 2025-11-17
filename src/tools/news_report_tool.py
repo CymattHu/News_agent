@@ -62,6 +62,7 @@ def news_report(query:str,top_k:int,report_file_name:str) -> str:
     matched_sources = parse_query_to_sources(query)
 
     if not matched_sources:
+        print("No matched news sources for query:", query)
         return ""  # 没匹配到新闻源
 
     results = fetcher.fetch_from_sources(matched_sources)
