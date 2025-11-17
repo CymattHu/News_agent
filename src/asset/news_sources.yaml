@@ -9,7 +9,7 @@
       summary: .entry-content
       link_attr: a.entry-title-link[href]
 - url: https://www.bbc.com/news  # lack of top news
-  name: BBC News
+  name: BBC
   tags: [新闻, 综合]
   config:
     encoding: utf-8
@@ -20,7 +20,7 @@
       link_attr: a[href]
 
 - url: https://www.cnn.com/world
-  name: CNN World
+  name: CNN
   tags: [新闻, 综合]
   config:
     encoding: utf-8
