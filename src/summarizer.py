@@ -13,7 +13,7 @@ class Summarizer:
             model=model,
             google_api_key=settings.google_api_key,
             temperature=0.2,
-            max_output_tokens=1024,
+            max_output_tokens=4096,
         )
 
     def summarize(self, title: str, summary: str, link: str = "", max_tokens: int = 512):
