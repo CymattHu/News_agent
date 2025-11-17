@@ -42,6 +42,7 @@ def build_news_agent(api_key: str | None = None):
             - top_k 表示选择的重要新闻数量,不超过7条。
             - report_file_name 表示生成的 PDF 报告文件名，例如 "news_report.pdf"。
             - 工具会自动完成抓取、摘要、分类和 PDF 生成，无需用户手动干预。
+            - 报告生成后再向用户反馈结果。
             - 执行完成后，向用户返回生成的 PDF 文件路径或报告信息。
 
             交互示例：

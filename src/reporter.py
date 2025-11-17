@@ -50,7 +50,7 @@ class Reporter:
             topMargin=18*mm,
             bottomMargin=18*mm
         )
-
+        print( "Generating report to", self.filename)
         story = []
 
         # 大标题
